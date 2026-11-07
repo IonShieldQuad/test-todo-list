@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0d16">
+    <meta name="description" content="Простой список задач, который сохраняется в этом браузере.">
+    <title>Список задач</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-heading">
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> ВАШ СПОКОЙНЫЙ ПЛАН НА ДЕНЬ</span>
+        <h1>Список <span>задач</span></h1>
+        <p>Освободите мысли. Остальное — по одному шагу.</p>
+      </header>
+
+      <section class="todo-card" aria-labelledby="list-heading">
+        <div class="card-heading">
+          <div>
+            <h2 id="list-heading">Мои задачи</h2>
+            <p id="task-progress" class="task-progress">Начните с первого шага</p>
+          </div>
+          <span id="task-count" class="task-count" aria-live="polite">0 задач</span>
+        </div>
+
+        <form id="task-form" class="task-form" novalidate>
+          <label class="visually-hidden" for="task-input">Новая задача</label>
+          <input
+            id="task-input"
+            class="task-input"
+            name="task"
+            type="text"
+            maxlength="200"
+            autocomplete="off"
+            placeholder="Например, прогуляться после обеда"
+            aria-describedby="task-feedback"
+            required
+          >
+          <button class="add-button" type="submit">
+            <span class="add-icon" aria-hidden="true">+</span>
+            <span>Добавить</span>
+          </button>
+        </form>
+
+        <p id="task-feedback" class="task-feedback" role="status" aria-live="polite"></p>
+
+        <p id="empty-state" class="empty-state">
+          <span class="empty-orbit" aria-hidden="true"><span></span></span>
+          <span>Пока здесь тихо. Добавьте первую задачу.</span>
+        </p>
+        <ul id="task-list" class="task-list" aria-label="Список задач"></ul>
+
+        <footer class="card-footer">
+          <span class="save-indicator" aria-hidden="true"></span>
+          <span>Сохраняется в этом браузере</span>
+          <span class="footer-spark" aria-hidden="true">✦</span>
+        </footer>
+      </section>
+
+      <p class="page-note">Маленькие шаги тоже ведут вперёд.</p>
+    </main>
+  </body>
+</html>
