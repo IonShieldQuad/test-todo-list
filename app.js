@@ -203,9 +203,52 @@ export function initTodoApp(root = globalThis.document, storagePort) {
     }
   }
 
+  function captureFocus() {
+    const active = root.activeElement;
+    if (!active || typeof active.closest !== "function" || !list.contains(active)) {
+      return null;
+    }
+
+    const taskId = active.dataset && active.dataset.taskId;
+    if (!taskId) {
+      return null;
+    }
+
+    const items = [...list.querySelectorAll(".task-item")];
+    return {
+      taskId,
+      control: active.classList.contains("delete-button") ? "delete-button" : "task-checkbox",
+      index: items.indexOf(active.closest(".task-item")),
+    };
+  }
+
+  function restoreFocus(focus) {
+    if (!focus) {
+      return;
+    }
+
+    const same = list.querySelector(`.${focus.control}[data-task-id="${focus.taskId}"]`);
+    if (same) {
+      same.focus();
+      return;
+    }
+
+    // The focused row was removed; keep the keyboard position inside the list.
+    const items = [...list.querySelectorAll(".task-item")];
+    const fallbackItem = items[Math.min(Math.max(focus.index, 0), items.length - 1)];
+    const target = (fallbackItem && (fallbackItem.querySelector(`.${focus.control}`)
+      || fallbackItem.querySelector(".task-checkbox")))
+      || (items.length === 0 ? input : null);
+    if (target && typeof target.focus === "function") {
+      target.focus();
+    }
+  }
+
   function persist(nextTasks) {
+    const focus = captureFocus();
     tasks = nextTasks;
     render();
+    restoreFocus(focus);
     const result = saveTasks(tasks, storagePort);
     setFeedback(result.ok ? "" : STORAGE_NOTICE);
   }
